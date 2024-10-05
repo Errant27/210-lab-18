@@ -13,12 +13,12 @@ struct Review
 };
 
 void makes_linked_list(Review*&, Review*&, int);
-void output_list(Review*, Review*, char);
+void output_list(Review*&, Review*&, char);
 
 int main()
 {
-    Review *head;
-    Review *tail;
+    Review *head =  nullptr;
+    Review *tail = nullptr;
     int choice;
     
     cout << "Do you want to create a list that adds to the start or the end of the liked list\n";
@@ -38,16 +38,6 @@ int main()
     
     makes_linked_list(head, tail, choice);
     
-    if (head) {
-        delete head;
-        head = nullptr;
-    }
-    
-    if (tail) {
-        delete tail;
-        tail = nullptr;
-    }
- 
     return 0;
 }
 
@@ -116,7 +106,7 @@ void makes_linked_list(Review *&ptrHD, Review *&ptrTL, int input)
     newReview = nullptr;
 }
 
-void output_list(Review *ptrHD, Review *ptrTL, char input)
+void output_list(Review *&ptrHD, Review *&ptrTL, char input)
 {
     if (input == 'Y') {
         cout << "Here's the list\n";
@@ -127,6 +117,11 @@ void output_list(Review *ptrHD, Review *ptrTL, char input)
         cout << "Review 2\n";
         cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
         cout << "-------\n";
+        
+        delete ptrHD;
+        ptrHD = nullptr;
+        delete ptrTL;
+        ptrHD = nullptr;
     }
     
     else {
@@ -136,5 +131,4 @@ void output_list(Review *ptrHD, Review *ptrTL, char input)
         cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
         cout << "-------\n";
     }
-    
 }
