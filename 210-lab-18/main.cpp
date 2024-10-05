@@ -12,18 +12,19 @@ struct Review
     Review *next;
 };
 
-void makes_linked_list(Review*, Review*, int);
+void makes_linked_list(Review*&, Review*&, int);
+void output_list(Review*, Review*, char);
 
 int main()
 {
-    Review *head = nullptr;
-    Review *tail =  nullptr;
+    Review *head;
+    Review *tail;
     int choice;
     
     cout << "Do you want to create a list that adds to the start or the end of the liked list\n";
     cout << "Enter 1 or 2\n";
-    cout << "[1] Start of the list\n";
-    cout << "[2] End of the list\n";
+    cout << "1) Start of the list\n";
+    cout << "2) End of the list\n";
     cout << "Entry: ";
     cin >> choice;
     
@@ -37,19 +38,23 @@ int main()
     
     makes_linked_list(head, tail, choice);
     
-    delete head;
-    delete tail;
-    head = nullptr;
-    tail = nullptr;
+    if (head) {
+        delete head;
+        head = nullptr;
+    }
+    
+    if (tail) {
+        delete tail;
+        tail = nullptr;
+    }
  
     return 0;
 }
 
-
-void makes_linked_list(Review *ptrHD, Review* ptrTL, int input)
+void makes_linked_list(Review *&ptrHD, Review *&ptrTL, int input)
 {
     Review *newReview = nullptr;
-    char y_or_n;
+    char answ;
     
         newReview = new Review;
         ptrHD = newReview;
@@ -63,14 +68,16 @@ void makes_linked_list(Review *ptrHD, Review* ptrTL, int input)
         getline(cin, ptrHD->comment);
         
         cout << "Add another? Enter Y or N: ";
-        cin >> y_or_n;
+        cin >> answ;
         
-        while (y_or_n != 'Y' && y_or_n != 'N') {
+        while (answ != 'Y' && answ != 'N') {
+            cin.clear();
+            cin.ignore(100, '\n');
             cout << "Enter Y or N: ";
-            cin >> y_or_n;
+            cin >> answ;
         }
         
-        if (y_or_n == 'Y' && input == 1) {
+        if (answ == 'Y' && input == 1) {
             newReview = new Review;
             ptrHD = newReview;
             newReview->next = ptrTL->next;
@@ -82,14 +89,10 @@ void makes_linked_list(Review *ptrHD, Review* ptrTL, int input)
             cout << "What was the reviewer's comment? Comment: ";
             getline(cin, ptrHD->comment);
             
-            cout << "Here's the list\n";
-            cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
-            cout << "Review 2\n";
-            cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
+            output_list(ptrHD, ptrTL, answ);
         }
 
-        if (y_or_n == 'Y' && input == 2) {
+        if (answ == 'Y' && input == 2) {
             newReview = new Review;
             ptrHD->next = newReview;
             ptrTL = newReview;
@@ -102,19 +105,36 @@ void makes_linked_list(Review *ptrHD, Review* ptrTL, int input)
             cout << "What was the reviewer's comment? Comment: ";
             getline(cin, ptrTL->comment);
             
-            cout << "Here's the list\n";
-            cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
-            cout << "Review 2\n";
-            cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
+            output_list(ptrHD, ptrTL, answ);
         }
         
-        if (y_or_n == 'N') {
-            cout << "Here's the list\n";
-            cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
+        if (answ == 'N') {
+            output_list(ptrHD, ptrTL, answ);
         }
     
     delete newReview;
     newReview = nullptr;
+}
+
+void output_list(Review *ptrHD, Review *ptrTL, char input)
+{
+    if (input == 'Y') {
+        cout << "Here's the list\n";
+        cout << "-------\n";
+        cout << "Review 1\n";
+        cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
+        cout << "-------\n";
+        cout << "Review 2\n";
+        cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
+        cout << "-------\n";
+    }
+    
+    else {
+        cout << "Here's the list\n";
+        cout << "-------\n";
+        cout << "Review 1\n";
+        cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
+        cout << "-------\n";
+    }
+    
 }
