@@ -13,7 +13,7 @@ struct Review
 };
 
 void head_linked_list(Review*);
-void tail_linked_list();
+void tail_linked_list(Review*);
 //void output_list();
 
 
@@ -22,7 +22,6 @@ int main()
     Review *head = nullptr;
     Review *tail =  nullptr;
     int choice;
-    
     
     cout << "Do you want to create a list that adds to the start or the end of the liked list\n";
     cout << "Enter 1 or 2\n";
@@ -40,12 +39,10 @@ int main()
     }
     
     if (choice == 1)
-        head_linked_list(head);
-       
+        tail_linked_list(tail);
     
-    if (choice == 2) {
-        head_linked_list(tail);
-    }
+    if (choice == 2)
+        head_linked_list(head);
     
     delete head;
     delete tail;
@@ -160,12 +157,10 @@ void tail_linked_list(Review *ptrTL)
         if (y_or_n == 'N') {
             cout << "Here's the list\n";
             cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << nav->rating << " Comment: " << nav->comment << endl;
+            cout << "Rating: " << setprecision(PREC) << nav->rating << " Comment: " << ptrTL->comment << endl;
         }
     
     delete newReview;
     newReview = nullptr;
 }
-
-//void output_list();
 
