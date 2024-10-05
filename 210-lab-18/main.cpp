@@ -12,10 +12,7 @@ struct Review
     Review *next;
 };
 
-void head_linked_list(Review*);
-void tail_linked_list(Review*);
-//void output_list();
-
+void makes_linked_list(Review*, Review*, int);
 
 int main()
 {
@@ -32,17 +29,13 @@ int main()
     
     while (choice != 1 && choice != 2) {
         cout << "Enter 1 or 2\n";
-        cout << "[1] Start of the list\n";
-        cout << "[2] End of the list\n";
+        cout << "1) Start of the list\n";
+        cout << "2) End of the list\n";
         cout << "Entry: ";
         cin >> choice;
     }
     
-    if (choice == 1)
-        tail_linked_list(tail);
-    
-    if (choice == 2)
-        head_linked_list(head);
+    makes_linked_list(head, tail, choice);
     
     delete head;
     delete tail;
@@ -53,15 +46,15 @@ int main()
 }
 
 
-void head_linked_list(Review *ptrHD)
+void makes_linked_list(Review *ptrHD, Review* ptrTL, int input)
 {
     Review *newReview = nullptr;
     char y_or_n;
     
         newReview = new Review;
         ptrHD = newReview;
-        ptrHD->next = nullptr;
-        newReview = nullptr;
+        ptrTL = newReview;
+        newReview->next = nullptr;
         
         cout << "What was the reviewer's rating? Rating: ";
         cin >> ptrHD->rating;
@@ -69,9 +62,6 @@ void head_linked_list(Review *ptrHD)
         cout << "What was the reviewer's comment? Comment: ";
         getline(cin, ptrHD->comment);
         
-        ptrHD->next = nullptr;
-        newReview = nullptr;
-        
         cout << "Add another? Enter Y or N: ";
         cin >> y_or_n;
         
@@ -80,22 +70,43 @@ void head_linked_list(Review *ptrHD)
             cin >> y_or_n;
         }
         
-        if (y_or_n == 'Y') {
+        if (y_or_n == 'Y' && input == 1) {
+            newReview = new Review;
+            ptrHD = newReview;
+            newReview->next = ptrTL->next;
+            newReview = nullptr;
+            
+            cout << "What was the reviewer's rating? Rating: ";
+            cin >> ptrHD->rating;
+            cin.ignore();
+            cout << "What was the reviewer's comment? Comment: ";
+            getline(cin, ptrHD->comment);
+            
+            cout << "Here's the list\n";
+            cout << "Review 1\n";
+            cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
+            cout << "Review 2\n";
+            cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
+        }
+
+        if (y_or_n == 'Y' && input == 2) {
             newReview = new Review;
             ptrHD->next = newReview;
-            ptrHD->next->next = nullptr;
+            ptrTL = newReview;
+            newReview->next = nullptr;
             newReview = nullptr;
+            
             cout << "What was the reviewer's rating? Rating: ";
-            cin >> ptrHD->next->rating;
+            cin >> ptrTL->rating;
             cin.ignore();
             cout << "What was the reviewer's comment? Comment: ";
-            getline(cin, ptrHD->next->comment);
+            getline(cin, ptrTL->comment);
             
             cout << "Here's the list\n";
             cout << "Review 1\n";
             cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
             cout << "Review 2\n";
-            cout << "Rating: " << setprecision(PREC) << ptrHD->next->rating << " Comment: " << ptrHD->next->comment << endl;
+            cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
         }
         
         if (y_or_n == 'N') {
@@ -107,60 +118,3 @@ void head_linked_list(Review *ptrHD)
     delete newReview;
     newReview = nullptr;
 }
-
-void tail_linked_list(Review *ptrTL)
-{
-    Review *newReview = nullptr;
-    Review *nav = nullptr;
-    char y_or_n;
-    
-        newReview = new Review;
-        ptrTL = newReview;
-        ptrTL->next = nullptr;
-        newReview = nullptr;
-        
-        cout << "What was the reviewer's rating? Rating: ";
-        cin >> ptrTL->rating;
-        cin.ignore();
-        cout << "What was the reviewer's comment? Comment: ";
-        getline(cin, ptrTL->comment);
-        
-        ptrTL->next = nullptr;
-        newReview = nullptr;
-        
-        cout << "Add another? Enter Y or N: ";
-        cin >> y_or_n;
-        
-        while (y_or_n != 'Y' && y_or_n != 'N') {
-            cout << "Enter Y or N: ";
-            cin >> y_or_n;
-        }
-        
-        if (y_or_n == 'Y') {
-            newReview = new Review;
-            nav = newReview;
-            nav->next = ptrTL;
-            newReview = nullptr;
-            cout << "What was the reviewer's rating? Rating: ";
-            cin >> nav->rating;
-            cin.ignore();
-            cout << "What was the reviewer's comment? Comment: ";
-            getline(cin, nav->comment);
-            
-            cout << "Here's the list\n";
-            cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << nav->rating << " Comment: " << nav->comment << endl;
-            cout << "Review 2\n";
-            cout << "Rating: " << setprecision(PREC) << nav->next->rating << " Comment: " << nav->next->comment << endl;
-        }
-        
-        if (y_or_n == 'N') {
-            cout << "Here's the list\n";
-            cout << "Review 1\n";
-            cout << "Rating: " << setprecision(PREC) << nav->rating << " Comment: " << ptrTL->comment << endl;
-        }
-    
-    delete newReview;
-    newReview = nullptr;
-}
-
