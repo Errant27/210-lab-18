@@ -108,7 +108,16 @@ void makes_linked_list(Review *&ptrHD, Review *&ptrTL, int input)
 
 void output_list(Review *&ptrHD, Review *&ptrTL, char input)
 {
+    double rate1;
+    double rate2;
+    double avg;
+    
     if (input == 'Y') {
+        rate1 = ptrHD->rating;
+        rate2 = ptrTL->rating;
+        
+        avg = ((rate1 + rate2) / 2);
+        
         cout << "Here's the list\n";
         cout << "-------\n";
         cout << "Review 1\n";
@@ -116,6 +125,8 @@ void output_list(Review *&ptrHD, Review *&ptrTL, char input)
         cout << "-------\n";
         cout << "Review 2\n";
         cout << "Rating: " << setprecision(PREC) << ptrTL->rating << " Comment: " << ptrTL->comment << endl;
+        cout << "-------\n";
+        cout << "Average rating: " << setprecision(PREC) << avg << endl;
         cout << "-------\n";
         
         delete ptrHD;
@@ -129,6 +140,8 @@ void output_list(Review *&ptrHD, Review *&ptrTL, char input)
         cout << "-------\n";
         cout << "Review 1\n";
         cout << "Rating: " << setprecision(PREC) << ptrHD->rating << " Comment: " << ptrHD->comment << endl;
+        cout << "-------\n";
+        cout << "Average rating: " << setprecision(PREC) << ptrHD->rating << endl;
         cout << "-------\n";
     }
 }
